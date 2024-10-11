@@ -1,4 +1,3 @@
-// controllers/UserController.js
 const User = require('../models/User');
 
 class UserController {
@@ -37,6 +36,47 @@ class UserController {
                 return res.status(500).json({ error: err.message });
             }
             res.status(204).send();
+        });
+    }
+
+    static login(req, res) {
+        const data = req.body;
+
+        User.getByEmail(data.email, (err, user) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+
+            if (user.length > 0) {
+                return res.status(200).json({ message: 'User already exists', userId: user.id });
+            }
+
+            User.create(data, (err, results) => {
+                if (err) {
+                    return res.status(400).json({ error: err.message });
+                }
+                res.status(201).json({ id: results.insertId });
+            });
+        });
+    }
+
+    static checkRole(req, res) {
+        const { id } = req.params;
+        User.getByid(id, (err, user) => {
+            if (err) {
+                return res.status(400).json({ error: err.message });
+            }
+            res.status(200).json(user);
+        });
+    }
+
+    static role(req, res) {
+        const data = req.body;
+        User.updateRole(data.session.id, data, (err, user) => {
+            if (err) {
+                return res.status(400).json({ error: err.message });
+            }
+            res.status(200).json(user);
         });
     }
 }
