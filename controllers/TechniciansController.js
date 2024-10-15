@@ -25,8 +25,18 @@ class TechnicianController {
         });
     }
 
+    static getTechniciansByID(req, res) {
+        const { id } = req.params;
+        Technician.getByUserId(id, (err, results) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            res.status(200).json(results[0]);
+        });
+    }
+
     static updateTechnician(req, res) {
-        const { id } = req.params; // รับ _id จากพารามิเตอร์ URL
+        const { id } = req.params;
         Technician.update(id, req.body, (err) => {
             if (err) {
                 return res.status(400).json({ error: err.message });
@@ -36,7 +46,7 @@ class TechnicianController {
     }
 
     static deleteTechnician(req, res) {
-        const { id } = req.params; // รับ _id จากพารามิเตอร์ URL
+        const { id } = req.params;
         Technician.delete(id, (err) => {
             if (err) {
                 return res.status(500).json({ error: err.message });

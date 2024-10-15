@@ -2,12 +2,24 @@ const express = require('express');
 const router = express.Router();
 const TechnicianController = require('../controllers/TechniciansController');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const path = require('path');
 
-// กำหนดให้ใช้ multer เป็น middleware สำหรับการอัปโหลด
-router.post('/', upload.single('documents'), TechnicianController.createTechnician); // ใช้ single สำหรับไฟล์เดียว
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb) {
+        const originalName = Buffer.from(file.originalname, 'latin1').toString('utf8');
+        cb(null, `${originalName}`);
+    }
+});
+
+const upload = multer({ storage: storage });
+
+router.post('/', upload.single('documents'), TechnicianController.createTechnician);
 router.get('/', TechnicianController.getTechnicians);
-router.put('/:id', TechnicianController.updateTechnician);
+router.get('/:id', TechnicianController.getTechniciansByID);
+router.put('/:id', upload.single('documents'), TechnicianController.updateTechnician);
 router.delete('/:id', TechnicianController.deleteTechnician);
 
 module.exports = router;

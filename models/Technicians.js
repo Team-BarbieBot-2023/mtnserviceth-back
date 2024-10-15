@@ -10,9 +10,9 @@ const Technicians = {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
 
-        connection.query(query,[data.user_id,data.phone,data.address_id_card,data.current_address,data.emergency_contact,data.national_id,data.documents,data.pdpa_consent,
-                data.work_history
-            ],
+        connection.query(query, [data.user_id, data.phone, data.address_id_card, data.current_address, data.emergency_contact, data.national_id, data.documents, data.pdpa_consent,
+        data.work_history
+        ],
             callback
         );
     },
@@ -25,41 +25,47 @@ const Technicians = {
     update: (id, data, callback) => {
         const query = `
             UPDATE technicians 
-            SET user_id = ?, phone = ?, address_id_card = ?, current_address = ?, 
-                emergency_contact = ?, national_id = ?, documents = ?, pdpa_consent = ?, 
-                experience_level = ?, work_history = ?, current_jobs = ?, status = ? 
-            WHERE _id = ?
+            SET phone = ?, emergency_contact = ?, national_id = ?, address_id_card = ?, 
+                current_address = ?, work_history = ?, documents = ?
+            WHERE id = ?
         `;
         connection.query(query, [
-            data.user_id,
             data.phone,
-            data.address_id_card,
-            data.current_address,
             data.emergency_contact,
             data.national_id,
-            data.documents,
-            data.pdpa_consent,
-            data.experience_level,
+            data.address_id_card,
+            data.current_address,
             data.work_history,
-            data.current_jobs,
-            data.status,
+            data.documents,
             id
         ], callback);
     },
 
     delete: (id, callback) => {
-        const query = 'DELETE FROM technicians WHERE _id = ?';
+        const query = 'DELETE FROM technicians WHERE id = ?';
         connection.query(query, [id], callback);
     },
 
     getById: (id, callback) => {
-        const query = 'SELECT * FROM technicians WHERE _id = ?';
+        console.log(id)
+        const query = 'SELECT * FROM technicians WHERE id = ?';
+        connection.query(query, [id], callback);
+    },
+
+    getByUserId: (id, callback) => {
+        console.log(id)
+        const query = 'SELECT * FROM technicians WHERE user_id = ?';
         connection.query(query, [id], callback);
     },
 
     updateStatus: (id, status, callback) => {
-        const query = 'UPDATE technicians SET status = ? WHERE _id = ?';
+        const query = 'UPDATE technicians SET status = ? WHERE id = ?';
         connection.query(query, [status, id], callback);
+    },
+
+    updateCurrentJobs: (id, jobid, callback) => {
+        const query = 'UPDATE technicians SET current_jobs = ? WHERE user_id = ?';
+        connection.query(query, [jobid, id], callback);
     }
 };
 
