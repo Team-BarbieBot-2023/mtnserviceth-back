@@ -116,7 +116,7 @@ const Jobs = {
         );
     },
     getByJobId: (id, callback) => {
-        const query = `SELECT j.job_type,j.job_description,u.name FROM jobs AS j 
+        const query = `SELECT j.id AS job_id,t.id AS technician_id,j.job_type,j.job_description,u.name FROM jobs AS j 
         LEFT JOIN technicians AS t ON (t.id=j.technician_id)
         LEFT JOIN users AS u ON (u.id = t.user_id) WHERE j.id = ?`;
         connection.query(query, [id], callback);
