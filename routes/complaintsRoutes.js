@@ -1,13 +1,11 @@
 const express = require('express');
-const multer = require('multer');
 const router = express.Router();
-const JobsController = require('../controllers/JobsController');
 const ComplaintsController = require('../controllers/ComplaintsController');
 
 
 router.get('/getjobbyid/:id', ComplaintsController.getJobById);
-router.delete('/:id', JobsController.deleteJobs);
-
+router.delete('/:id', ComplaintsController.deleteComplaints);
+router.post('/', ComplaintsController.createComplaint);
 
 
 module.exports = router;
