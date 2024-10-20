@@ -4,7 +4,6 @@ const Technicians = require('../models/Technicians');
 class ComplaintsController {
     static createComplaint(req, res) {
         try {
-            console.log(req.body);
             const complaintData = {
                 user_id: req.body.user_id,
                 technician_id: req.body.technician_id || null,
