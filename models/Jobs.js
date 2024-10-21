@@ -30,7 +30,7 @@ const Jobs = {
     },
 
     getAll: (callback) => {
-        const query = 'SELECT * FROM jobs';
+        const query = "SELECT * FROM jobs AS a WHERE a.technician_id IS NULL";
         connection.query(query, callback);
     },
 
@@ -40,7 +40,7 @@ const Jobs = {
     },
 
     getByTechnicianID: (technician_id, callback) => {
-        const query = 'SELECT * FROM jobs WHERE technician_id = ?';
+        const query = 'SELECT * FROM jobs WHERE technician_id = ? ORDER BY status DESC';
         connection.query(query, [technician_id], callback);
     },
 
@@ -115,6 +115,19 @@ const Jobs = {
             callback
         );
     },
+
+    updateStatusCompleted: (id, data, callback) => {
+        const query = `UPDATE jobs SET status = ?, updated_at = NOW() WHERE id = ?`;
+        connection.query(
+            query,
+            [
+                data.status,
+                id
+            ],
+            callback
+        );
+    },
+
     getByJobId: (id, callback) => {
         const query = `SELECT j.id AS job_id,t.id AS technician_id,j.job_type,j.job_description,u.name FROM jobs AS j 
         LEFT JOIN technicians AS t ON (t.id=j.technician_id)
