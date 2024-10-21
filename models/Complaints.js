@@ -39,7 +39,7 @@ const Complaints = {
         DATE_FORMAT(c.updated_at, '%Y-%m-%d %H:%i:%s') AS updated_at ,
         c.created_at,
         j.job_title,j.job_description,j.status AS job_status FROM complaints AS c
-        LEFT JOIN jobs AS j ON (c.job_id = j.id) WHERE c.user_id = ?`;
+        LEFT JOIN jobs AS j ON (c.job_id = j.id) WHERE c.user_id = ? ORDER BY created_at DESC`;
         connection.query(query, [id], callback);
     },
     getById: (id, callback) => {
