@@ -33,11 +33,12 @@ const Complaints = {
         c.complaint_title,
         c.complaint_description,
         c.status,
-        c.resolution,
+        IFNULL(c.resolution,'รอดำเนินการ') AS resolution,
         c.resolved_at,
         c.complaint_date,
+        DATE_FORMAT(c.updated_at, '%Y-%m-%d %H:%i:%s') AS updated_at ,
         c.created_at,
-        c.updated_at,j.job_title,j.job_description,j.status AS job_status FROM complaints AS c
+        j.job_title,j.job_description,j.status AS job_status FROM complaints AS c
         LEFT JOIN jobs AS j ON (c.job_id = j.id) WHERE c.user_id = ?`;
         connection.query(query, [id], callback);
     },
