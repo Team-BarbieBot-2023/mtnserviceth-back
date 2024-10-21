@@ -20,6 +20,7 @@ app.use('/jobs', jobsRoutes);
 app.use('/complaints',complaintsRoutes);
 
 app.use('/file', express.static(path.join(__dirname, '/uploads')));
+app.use('/img', express.static(path.join(__dirname, '/img')));
 
 
 

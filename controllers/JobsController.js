@@ -1,3 +1,4 @@
+const notification = require('../function/notification');
 const Jobs = require('../models/Jobs');
 const Technicians = require('../models/Technicians');
 const multer = require('multer');
@@ -75,15 +76,30 @@ class JobsController {
         });
     }
 
-    static updateTaskThisJob(req, res) {
+    static updateStatusJobsCompleted(req, res) {
+        const { id } = req.params;
+        Jobs.updateStatusCompleted(id, req.body, (err) => {
+            if (err) {
+                return res.status(400).json({ error: err.message });
+            }
+            res.status(200).json({ message: 'Jobs updated successfully' });
+        });
+    }
+
+    static updateStatusJobsInprogress(req, res) {
         const { id } = req.params;
         const data = req.body;
+
+
+        // notification.email(data.status, data.user_email)
 
         Technicians.getByUserId(data.user_id, (err, results) => {
             if (err) {
                 return res.status(400).json({ error: err.message });
             }
 
+
+            console.log(results);
             data.technician_id = results[0].id
 
             Jobs.updateStatus(id, data, (err) => {
@@ -98,6 +114,25 @@ class JobsController {
 
                     res.status(200).json({ message: 'Jobs updated successfully' });
                 })
+
+            });
+        });
+    }
+
+    static getJobsByTechnicianID(req, res) {
+        const { id } = req.params;
+        Technicians.getByUserId(id, (err, results) => {
+            if (err) {
+                return res.status(400).json({ error: err.message });
+            }
+
+            let id = results[0].id
+
+            Jobs.getByTechnicianID(id, (err, results) => {
+                if (err) {
+                    return res.status(400).json({ error: err.message });
+                }
+                res.status(200).json(results);
 
             });
         });

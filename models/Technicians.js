@@ -2,8 +2,6 @@ const connection = require('../database');
 
 const Technicians = {
     create: (data, callback) => {
-
-
         const query = `
             INSERT INTO technicians 
             (user_id, phone, address_id_card, current_address, emergency_contact, national_id, documents, pdpa_consent, work_history) 
@@ -47,13 +45,11 @@ const Technicians = {
     },
 
     getById: (id, callback) => {
-        console.log(id)
         const query = 'SELECT * FROM technicians WHERE id = ?';
         connection.query(query, [id], callback);
     },
 
     getByUserId: (id, callback) => {
-        console.log(id)
         const query = 'SELECT * FROM technicians WHERE user_id = ?';
         connection.query(query, [id], callback);
     },
