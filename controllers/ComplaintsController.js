@@ -41,7 +41,15 @@ class ComplaintsController {
             res.status(200).json(results);           
         })
     }
-
+    static getMyComplaints(req, res) {
+        const { id } = req.params;
+        Complaints.getMyComplants(id, (err, results) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            res.status(200).json(results);
+        });
+    }
     static getComplaints(req, res) {
         Complaints.getAll((err, results) => {
             if (err) {
