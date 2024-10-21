@@ -28,6 +28,19 @@ const Complaints = {
         const query = 'SELECT * FROM complaints';
         connection.query(query, callback);
     },
+    getMyComplants: (id, callback) => {
+        const query = `SELECT c.user_id ,
+        c.complaint_title,
+        c.complaint_description,
+        c.status,
+        c.resolution,
+        c.resolved_at,
+        c.complaint_date,
+        c.created_at,
+        c.updated_at,j.job_title,j.job_description,j.status AS job_status FROM complaints AS c
+        LEFT JOIN jobs AS j ON (c.job_id = j.id) WHERE c.user_id = ?`;
+        connection.query(query, [id], callback);
+    },
     getById: (id, callback) => {
         const query = 'SELECT * FROM complaints WHERE user_id = ?';
         connection.query(query, [id], callback);
