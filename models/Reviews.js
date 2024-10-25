@@ -12,8 +12,8 @@ const Review = {
     },
 
     update: (id, data, callback) => {
-        const query = 'UPDATE reviews SET job_id = ?, user_id = ?, technician_id = ?, rating = ?, comment = ?, created_at = ? WHERE id = ?';
-        connection.query(query, [data.job_id, data.user_id, data.technician_id, data.rating, data.comment, new Date(), id], callback);
+        const query = 'UPDATE reviews SET  rating = ?, comment = ?, created_at = ? WHERE id = ?';
+        connection.query(query, [data.rating, data.comment, new Date(), id], callback);
     },
 
     delete: (id, callback) => {
