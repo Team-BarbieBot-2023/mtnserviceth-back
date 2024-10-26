@@ -26,7 +26,12 @@ const User = {
         connection.query(query, [email], callback);
     },
 
-    getByid: (id, callback) => {
+    getByid: async (id, callback) => {
+        const query = "SELECT * FROM users WHERE id = ?";
+        connection.query(query, [id], callback);
+    },
+
+    getBy_id: (id, callback) => {
         const query = "SELECT * FROM users WHERE _id = ?";
         connection.query(query, [id], callback);
     },

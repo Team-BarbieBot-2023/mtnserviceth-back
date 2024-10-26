@@ -1,41 +1,44 @@
 const nodemailer = require('nodemailer');
 const axios = require('axios');
 
+const User = require('../models/User');
+
 const notification = {
     // Email function
-    email: async (status, email) => {
-        console.log(status, email);
+    email: async (item) => {
+        const getEmail = await new Promise((resolve, reject) => {
+            User.getByid(item.to, (err, user) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(user.length > 0 ? user[0].email : null);
+            });
+        }).catch(error => {
+            console.error('Error fetching email:', error);
+            return null;
+        });
+
+        if (!getEmail) {
+            console.log('No email found for this user.');
+            return;
+        }
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'mthserviceth@gmail.com',
-                pass: 'mthservicethmthserviceth',
+                user: 'mtnseviceth@gmail.com',
+                pass: 'vofz luxc rnbo cfja',
             },
+            tls: {
+                rejectUnauthorized: false
+            }
         });
 
-        let text = "";
-
-        switch (status) {
-            case 'in_progress':
-                text = "Your request is currently in progress. Please wait for further updates.";
-                break;
-            case 'completed':
-                text = "Your request has been completed successfully. Thank you for using our service.";
-                break;
-            case 'canceled':
-                text = "Your request has been canceled. If you have any questions, please contact support.";
-                break;
-            default:
-                text = "An update on your request status will be provided soon.";
-                break;
-        }
-
         const mailOptions = {
-            from: "mthserviceth@gmail.com", // อีเมลผู้ส่ง
-            to: email, // อีเมลผู้รับ
-            subject: `Status Update: ${status}`, // หัวข้ออีเมล
-            text: text, // เนื้อหาอีเมลที่ถูกกำหนดจากสถานะ
+            from: "mtnseviceth@gmail.com",
+            to: getEmail,
+            subject: item.subject,
+            text: item.text,
         };
 
         try {
