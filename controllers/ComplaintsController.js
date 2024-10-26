@@ -50,8 +50,8 @@ class ComplaintsController {
             res.status(200).json(results);
         });
     }
-    static getComplaintsByStatus(req, res) {
-        Complaints.getMyComplantsByStatus((err, results) => {
+    static getComplaintsByAdmin(req, res) {
+        Complaints.getMyComplantsByAdmin((err, results) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }

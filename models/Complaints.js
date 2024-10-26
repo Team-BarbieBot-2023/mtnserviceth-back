@@ -28,7 +28,7 @@ const Complaints = {
         const query = 'SELECT * FROM complaints';
         connection.query(query, callback);
     },
-    getMyComplantsByStatus: (callback) => {
+    getMyComplantsByAdmin: (callback) => {
         const query = `SELECT c.user_id ,
         c.complaint_title,
         c.complaint_description,
