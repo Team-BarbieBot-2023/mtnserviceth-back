@@ -51,8 +51,7 @@ class ComplaintsController {
         });
     }
     static getComplaintsByStatus(req, res) {
-        const { st } = req.query;
-        Complaints.getMyComplantsByStatus(st, (err, results) => {
+        Complaints.getMyComplantsByStatus((err, results) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
