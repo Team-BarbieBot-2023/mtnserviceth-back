@@ -78,7 +78,7 @@ const Complaints = {
             break;
         case 'baned':
             connection.query(`UPDATE technicians SET
-                complaint_count = complaint_count + 1
+                complaint_count = complaint_count + 1,
                 status='banned'
                 WHERE id=${data.technician_id};
                 UPDATE complaints SET
