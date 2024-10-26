@@ -86,12 +86,17 @@ class JobsController {
         });
     }
 
-    static updateStatusJobsInprogress(req, res) {
+    static async updateStatusJobsInprogress(req, res) {
         const { id } = req.params;
         const data = req.body;
 
+        const setEmail = {
+            to: data.user_id,
+            subject: `Status Update: ${data.status}`,
+            text: "สถานะงานของท่าน มีช่างรับงานแล้ว",
+        }
 
-        // notification.email(data.status, data.user_email)
+        await notification.email(setEmail)
 
         Technicians.getByUserId(data.user_id, (err, results) => {
             if (err) {

@@ -62,7 +62,7 @@ class UserController {
 
     static checkRole(req, res) {
         const { id } = req.params;
-        User.getByid(id, (err, user) => {
+        User.getBy_id(id, (err, user) => {
             if (err) {
                 return res.status(400).json({ error: err.message });
             }
