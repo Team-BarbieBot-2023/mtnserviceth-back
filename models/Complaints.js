@@ -37,11 +37,21 @@ const Complaints = {
         c.resolved_at,
         c.complaint_date,
         c.complaint_result,
+        c.complaint_id,
         DATE_FORMAT(c.updated_at, '%Y-%m-%d %H:%i:%s') AS updated_at ,
         c.created_at,
-        j.job_title,j.job_description,j.status AS job_status FROM complaints AS c
-        LEFT JOIN jobs AS j ON (c.job_id = j.id) ORDER BY created_at DESC`;
-        connection.query(query, [st], callback);
+        j.job_title,j.job_description,j.status AS job_status,
+				j.customer_details,
+				u.name AS userName,
+				u.email AS userEmail,
+				ut.name AS techName,
+				ut.email AS techEmail
+				FROM complaints AS c
+        LEFT JOIN jobs AS j ON (c.job_id = j.id) 
+				LEFT JOIN users AS u ON (u.id = j.user_id)
+				LEFT JOIN users AS ut ON (ut.id = j.technician_id)
+				ORDER BY created_at DESC`;
+        connection.query(query, callback);
     },    
     getMyComplants: (id, callback) => {
         const query = `SELECT c.user_id ,
