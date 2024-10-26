@@ -28,6 +28,21 @@ const Complaints = {
         const query = 'SELECT * FROM complaints';
         connection.query(query, callback);
     },
+    getMyComplantsByStatus: (callback) => {
+        const query = `SELECT c.user_id ,
+        c.complaint_title,
+        c.complaint_description,
+        c.status,
+        IFNULL(c.resolution,'รอดำเนินการ') AS resolution,
+        c.resolved_at,
+        c.complaint_date,
+        c.complaint_result,
+        DATE_FORMAT(c.updated_at, '%Y-%m-%d %H:%i:%s') AS updated_at ,
+        c.created_at,
+        j.job_title,j.job_description,j.status AS job_status FROM complaints AS c
+        LEFT JOIN jobs AS j ON (c.job_id = j.id) ORDER BY created_at DESC`;
+        connection.query(query, [st], callback);
+    },    
     getMyComplants: (id, callback) => {
         const query = `SELECT c.user_id ,
         c.complaint_title,
@@ -36,6 +51,7 @@ const Complaints = {
         IFNULL(c.resolution,'รอดำเนินการ') AS resolution,
         c.resolved_at,
         c.complaint_date,
+        c.complaint_result,
         DATE_FORMAT(c.updated_at, '%Y-%m-%d %H:%i:%s') AS updated_at ,
         c.created_at,
         j.job_title,j.job_description,j.status AS job_status FROM complaints AS c
