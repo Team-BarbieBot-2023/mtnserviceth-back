@@ -87,6 +87,23 @@ class ComplaintsController {
         });
     }
 
+    static statusByCase(req,res) {
+        try {
+            let data = req.body;
+            Complaints.updateComplaint(data, (err) => {
+                if (err) {
+                    console.error('Database Error:', err);
+                    return res.status(500).json({ error: 'Failed to Update Complaints' });
+                }
+                res.status(200).json({ message: 'Update Complaints successfully!' });
+            });
+
+        } catch (error) {
+            console.error('Error in createJobs:', error);
+            res.status(500).json({ error: 'An error occurred while creating the job' });
+        }
+    }
+
 
 
     static deleteComplaints(req, res) {

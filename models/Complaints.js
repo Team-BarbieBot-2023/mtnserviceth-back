@@ -33,7 +33,7 @@ const Complaints = {
         c.complaint_title,
         c.complaint_description,
         c.status,
-        IFNULL(c.resolution,'รอดำเนินการ') AS resolution,
+        IFNULL(c.resolution,'') AS resolution,
         c.resolved_at,
         c.complaint_date,
         c.complaint_result,
@@ -42,17 +42,101 @@ const Complaints = {
         c.created_at,
         j.job_title,j.job_description,j.status AS job_status,
 				j.customer_details,
+                j.id AS job_id,
 				u.name AS userName,
 				u.email AS userEmail,
 				ut.name AS techName,
-				ut.email AS techEmail
+				ut.email AS techEmail,
+				j.technician_id
 				FROM complaints AS c
         LEFT JOIN jobs AS j ON (c.job_id = j.id) 
 				LEFT JOIN users AS u ON (u.id = j.user_id)
-				LEFT JOIN users AS ut ON (ut.id = j.technician_id)
+				LEFT JOIN technicians AS te ON (te.id = j.technician_id)
+				LEFT JOIN users AS ut ON (ut.id = te.user_id)
 				ORDER BY created_at DESC`;
         connection.query(query, callback);
-    },    
+    },  
+    updateComplaint: (data,callback)=>{
+        const action = data.complaint_result;
+        switch (action) {
+        case 'replace':
+            connection.query(`UPDATE technicians SET
+                complaint_count = complaint_count + 1
+                WHERE id=${data.technician_id};
+                UPDATE complaints SET
+                resolution = '${data.resolution}',
+                resolved_at = NOW(),
+                status = 'completed',
+                complaint_result =  '${data.complaint_result}'
+                WHERE 
+                complaint_id = ${data.complaint_id};
+                UPDATE jobs SET
+                status='pending',
+                technician_id=null
+                WHERE
+                id=${data.job_id};` , callback);
+            break;
+        case 'baned':
+            connection.query(`UPDATE technicians SET
+                complaint_count = complaint_count + 1
+                status='banned'
+                WHERE id=${data.technician_id};
+                UPDATE complaints SET
+                resolution = '${data.resolution}',
+                resolved_at = NOW(),
+                status = 'completed',
+                complaint_result =  '${data.complaint_result}'
+                WHERE 
+                complaint_id = ${data.complaint_id};
+                UPDATE jobs SET
+                status='pending'
+                technician_id=null
+                WHERE
+                id=${data.job_id};` , callback);
+            break;
+        case 'warn':
+            connection.query(`UPDATE technicians SET
+                complaint_count = complaint_count + 1
+                WHERE id=${data.technician_id};
+                UPDATE complaints SET
+                resolution = '${data.resolution}',
+                status = "completed",
+                resolved_at = NOW(),
+                complaint_result = '${data.complaint_result}'
+                WHERE 
+                complaint_id = ${data.complaint_id};` , callback);
+            break;
+        case 'no_action':
+            connection.query(`
+                UPDATE complaints SET
+                resolution = '${data.resolution}',
+                resolved_at = NOW(),
+                complaint_result =  '${data.complaint_result}'
+                WHERE 
+                complaint_id = ${data.complaint_id};` , callback);
+            break;
+        case 'refund':
+            connection.query(`UPDATE technicians SET
+                complaint_count = complaint_count + 1
+                WHERE id=${data.technician_id};
+                UPDATE complaints SET
+                resolution = '${data.resolution}',
+                status = 'completed',
+                resolved_at = NOW(),
+                complaint_result = '${data.complaint_result}'
+                WHERE 
+                complaint_id = ${data.complaint_id};` , callback);
+            break;
+        default:
+            connection.query(`
+                UPDATE complaints SET
+                resolution = '${data.resolution}',
+                resolved_at = NOW(),
+                complaint_result =  '${data.complaint_result}'
+                WHERE 
+                complaint_id = ${data.complaint_id};` , callback);
+        }
+    },  
     getMyComplants: (id, callback) => {
         const query = `SELECT c.user_id ,
         c.complaint_title,

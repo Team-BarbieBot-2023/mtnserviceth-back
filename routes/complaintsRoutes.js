@@ -8,6 +8,7 @@ router.get('/getmycomplaints/:id',ComplaintsController.getMyComplaints);
 router.get('/getcomplaintsbyadmin',ComplaintsController.getComplaintsByAdmin);
 router.delete('/:id', ComplaintsController.deleteComplaints);
 router.post('/', ComplaintsController.createComplaint);
+router.post('/updatecase', ComplaintsController.statusByCase);
 
 
 module.exports = router;
