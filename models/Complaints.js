@@ -89,7 +89,7 @@ const Complaints = {
                 WHERE 
                 complaint_id = ${data.complaint_id};
                 UPDATE jobs SET
-                status='pending'
+                status='pending',
                 technician_id=null
                 WHERE
                 id=${data.job_id};` , callback);
