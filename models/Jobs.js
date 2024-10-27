@@ -45,6 +45,7 @@ const Jobs = {
             j.user_id,
             u.email AS user_email,
             u.name AS user_name,
+            u.image AS user_image,
             j.technician_id,
             tu.image AS technician_image,
             tu.name AS technician_name,
