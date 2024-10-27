@@ -69,6 +69,7 @@ connection.query(query, callback);
             u.name AS user_name,
             u.image AS user_image,
             j.technician_id,
+            tu.id AS technician_id_ori,
             tu.image AS technician_image,
             tu.name AS technician_name,
             tu.email AS technician_email
