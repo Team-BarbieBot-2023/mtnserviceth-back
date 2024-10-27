@@ -21,12 +21,13 @@ router.get('/user', (req, res) => {
 
 router.post('/', upload.array('documents', 10), JobsController.createJobs);
 router.get('/', JobsController.getJobs);
+router.get('/jobsbyadmin', JobsController.getJobsByAdmin);
 router.get('/:id', JobsController.getJobsByID);
 router.put('/:id', JobsController.updateJobs);
 router.put('/updatestatusjobscompleted/:id', JobsController.updateStatusJobsCompleted);
 router.post('/updatestatusjobsinprogress/:id', JobsController.updateStatusJobsInprogress);
 router.get('/schedule/:id', JobsController.getJobsByTechnicianID);
 router.delete('/:id', JobsController.deleteJobs);
-router.get('/jobsbyadmin', JobsController.getJobsByAdmin);
+
 
 module.exports = router;
