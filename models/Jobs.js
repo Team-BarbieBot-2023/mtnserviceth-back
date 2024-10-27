@@ -53,7 +53,7 @@ const Jobs = {
             FROM jobs AS j
             LEFT JOIN technicians AS t ON (j.technician_id = t.id)
             LEFT JOIN users AS u ON (u.id = j.user_id)
-            LEFT JOIN users AS tu ON (tu.id = j.user_id);`;
+            LEFT JOIN users AS tu ON (tu.id = t.user_id);`;
         connection.query(query, callback);
     },
     getById: (id, callback) => {
