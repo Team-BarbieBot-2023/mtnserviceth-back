@@ -57,7 +57,26 @@ const Jobs = {
         connection.query(query, callback);
     },
     getById: (id, callback) => {
-        const query = 'SELECT * FROM jobs WHERE user_id = ?';
+        const query = `SELECT j.id AS job_id,
+            j.job_title,
+            j.job_description,
+            j.urgency,
+            j.status,
+            j.img_description,
+            j.job_type,
+            j.user_id,
+            u.email AS user_email,
+            u.name AS user_name,
+            u.image AS user_image,
+            j.technician_id,
+            tu.image AS technician_image,
+            tu.name AS technician_name,
+            tu.email AS technician_email,
+            t.experience_level AS technician_level    
+            FROM jobs AS j
+            LEFT JOIN technicians AS t ON (j.technician_id = t.id)
+            LEFT JOIN users AS u ON (u.id = j.user_id)
+            LEFT JOIN users AS tu ON (tu.id = t.user_id) WHERE j.user_id = ?`;
         connection.query(query, [id], callback);
     },
 
