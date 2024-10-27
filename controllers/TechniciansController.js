@@ -35,6 +35,17 @@ class TechnicianController {
         });
     }
 
+    static updateStatus(req, res) {
+        const { id } = req.params;
+        const status = req.body.status;
+        Technician.updateStatus(id, status, (err) => {
+            if (err) {
+                return res.status(400).json({ error: err.message });
+            }
+            res.status(200).json({ message: 'Technician updated successfully' });
+        });
+    }
+
     static updateTechnician(req, res) {
         const { id } = req.params;
         Technician.update(id, req.body, (err) => {
