@@ -19,7 +19,9 @@ const Technicians = {
         const query = 'SELECT * FROM technicians';
         connection.query(query, callback);
     },
-
+    updateStatus:(id, status)=>{
+        connection.query(`UPDATE technicians SET status = ${status} WHERE id=${id};`, callback);
+    },
     update: (id, data, callback) => {
         const query = `
             UPDATE technicians 
