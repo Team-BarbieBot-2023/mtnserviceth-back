@@ -126,15 +126,7 @@ const Jobs = {
 
     updateStatus: (id, data, callback) => {
         const query = `UPDATE jobs SET technician_id = ?, status = ?, updated_at = NOW() WHERE id = ?`;
-        connection.query(
-            query,
-            [
-                data.technician_id || null,
-                data.status,
-                id
-            ],
-            callback
-        );
+        connection.query(query,[data.technician_id,data.status,id],callback);
     },
 
     updateStatusCompleted: (id, data, callback) => {
@@ -161,10 +153,7 @@ const Jobs = {
         connection.query(query, [id], callback);
     },
 
-    updateStatus: (id, status, callback) => {
-        const query = 'UPDATE jobs SET status = ?, updated_at = NOW() WHERE id = ?';
-        connection.query(query, [status, id], callback);
-    }
+
 };
 
 module.exports = Jobs;

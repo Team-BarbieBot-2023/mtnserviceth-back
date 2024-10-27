@@ -6,7 +6,8 @@ router.get('/', (req, res) => {
     res.send('Line route');
 });
 
-router.get('/', LineController.getLines);
-router.put('/:id', LineController.updateLine);
+router.get('/:id', LineController.getLineByUserID);
+
+router.post('/webhook', LineController.webhook);
 
 module.exports = router;
