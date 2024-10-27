@@ -9,6 +9,9 @@ const jobsRoutes = require('./routes/jobsRoutes');
 const complaintsRoutes = require('./routes/complaintsRoutes');
 const reviewRoutes = require('./routes/reviewsRoutes');
 const lineRoutes = require('./routes/lineRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
+
+
 
 const app = express();
 app.use(cors());
@@ -27,6 +30,9 @@ app.use('/jobs', jobsRoutes);
 app.use('/complaints', complaintsRoutes);
 app.use('/review', reviewRoutes);
 app.use('/line', lineRoutes);
+app.use('/dashboard', dashboardRoutes);
+
+
 
 app.use('/file', express.static(path.join(__dirname, '/uploads')));
 app.use('/img', express.static(path.join(__dirname, '/img')));
