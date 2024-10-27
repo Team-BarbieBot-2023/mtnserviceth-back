@@ -56,6 +56,15 @@ class JobsController {
         });
     }
 
+    static getJobsByAdmin(req, res) {
+        Jobs.getJobsByAdmin((err, results) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            res.status(200).json(results);
+        });
+    }
+
     static getJobsByID(req, res) {
         const { id } = req.params;
         Jobs.getById(id, (err, results) => {

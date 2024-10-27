@@ -27,7 +27,6 @@ router.put('/updatestatusjobscompleted/:id', JobsController.updateStatusJobsComp
 router.post('/updatestatusjobsinprogress/:id', JobsController.updateStatusJobsInprogress);
 router.get('/schedule/:id', JobsController.getJobsByTechnicianID);
 router.delete('/:id', JobsController.deleteJobs);
-
-
+router.get('/jobsbyadmin', JobsController.getJobsByAdmin);
 
 module.exports = router;
