@@ -1,6 +1,7 @@
 const Complaints = require('../models/Complaints');
 const Jobs = require("../models/Jobs");
 const Technicians = require('../models/Technicians');
+const notification = require('../function/notification');
 class ComplaintsController {
     static createComplaint(req, res) {
         try {
@@ -87,9 +88,17 @@ class ComplaintsController {
         });
     }
 
-    static statusByCase(req,res) {
+    static async statusByCase(req,res) {
         try {
             let data = req.body;
+            const setEmail = {
+                to: data.technician_id_ori,
+                subject: `complant by customer : ${data.complaint_title}`,
+                text: `resolution: ${data.resolution} [ result: ${data.complaint_result} ]`,
+            }
+    
+            await notification.email(setEmail)
+
             Complaints.updateComplaint(data, (err) => {
                 if (err) {
                     console.error('Database Error:', err);

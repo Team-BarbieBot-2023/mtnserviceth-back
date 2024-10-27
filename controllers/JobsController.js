@@ -100,7 +100,7 @@ class JobsController {
 
     static removeTechniciant(req, res) {
         const { id } = req.params;
-        Jobs.removeTechniciant(id, req.body, (err) => {
+        Jobs.removeTechniciant(id, (err) => {
             if (err) {
                 return res.status(400).json({ error: err.message });
             }

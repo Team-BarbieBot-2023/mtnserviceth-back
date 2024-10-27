@@ -45,6 +45,7 @@ const Complaints = {
                 j.id AS job_id,
 				u.name AS userName,
 				u.email AS userEmail,
+                ut.id AS technician_id_ori,
 				ut.name AS techName,
 				ut.email AS techEmail,
 				j.technician_id
