@@ -18,7 +18,22 @@ class UserController {
             res.status(200).json(results);
         });
     }
-
+    static getUsersByAdmin(req, res) {
+        User.getUserByAdmin((err, results) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            res.status(200).json(results);
+        });
+    }
+    static getTechniciansByAdmin(req, res) {
+        User.getTechniciansByAdmin((err, results) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            res.status(200).json(results);
+        });
+    }    
     static updateUser(req, res) {
         const { id } = req.params;
         User.update(id, req.body, (err) => {

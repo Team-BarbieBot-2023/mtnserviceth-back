@@ -6,6 +6,28 @@ const User = {
         connection.query(query, [data.email, data.image, data.name, data.role, data.status, data._id], callback);
     },
 
+    getUserByAdmin: (callback) => {
+        const query = `SELECT u.name,u.id,u.image,u.email 
+        FROM users As u
+        WHERE u.role ='A'`;
+        connection.query(query, callback);
+    },
+    getTechniciansByAdmin: (callback) => {
+        const query = `SELECT u.name,
+            u.id,u.image,
+            u.email,
+            IFNULL(t.phone,'') AS phone,
+            IFNULL(t.status,'') AS status,c
+            IFNULL(t.complaint_count,0) AS complaint_count,
+            IFNULL(t.experience_level,0) AS experience_level,
+            IFNULL(t.id,0) AS technician_id
+            FROM users As u
+            LEFT JOIN technicians AS t ON (u.id = t.user_id)
+            WHERE u.role ='T'`;
+        connection.query(query, callback);
+    },
+
+
     getAll: (callback) => {
         const query = 'SELECT * FROM users';
         connection.query(query, callback);
