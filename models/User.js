@@ -9,7 +9,7 @@ const User = {
     getUserByAdmin: (callback) => {
         const query = `SELECT u.name,u.id,u.image,u.email 
         FROM users As u
-        WHERE u.role ='A'`;
+        WHERE u.role ='U'`;
         connection.query(query, callback);
     },
     getTechniciansByAdmin: (callback) => {
@@ -17,7 +17,7 @@ const User = {
             u.id,u.image,
             u.email,
             IFNULL(t.phone,'') AS phone,
-            IFNULL(t.status,'') AS status,c
+            IFNULL(t.status,'') AS status,
             IFNULL(t.complaint_count,0) AS complaint_count,
             IFNULL(t.experience_level,0) AS experience_level,
             IFNULL(t.id,0) AS technician_id

@@ -7,16 +7,15 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', UserController.createUser);
+router.get('/getusersbyadmin', UserController.getUsersByAdmin);
+router.get('/gettechniciansbyadmin', UserController.getTechniciansByAdmin);
 router.get('/', UserController.getUsers);
 router.put('/:id', UserController.updateUser);
 router.delete('/:id', UserController.deleteUser);
-
-
 router.post('/login', UserController.login);
 router.post('/role', UserController.role);
 router.get('/checkrole/:id', UserController.checkRole);
-router.get('/getusersbyadmin', UserController.getUsersByAdmin);
-router.get('/gettechniciansbyadmin', UserController.getTechniciansByAdmin);
+
 
 
 module.exports = router;
