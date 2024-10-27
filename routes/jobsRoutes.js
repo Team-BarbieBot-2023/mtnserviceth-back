@@ -22,8 +22,8 @@ router.get('/user', (req, res) => {
 router.post('/', upload.array('documents', 10), JobsController.createJobs);
 router.get('/', JobsController.getJobs);
 router.get('/jobsbyadmin', JobsController.getJobsByAdmin);
-router.get('removetechnician/:id', JobsController.removeTechniciant);
-router.put('canceljob/:id', JobsController.cancelJobs);
+router.get('/removetechnician/:id', JobsController.removeTechniciant);
+router.put('/canceljob/:id', JobsController.cancelJobs);
 router.put('/:id', JobsController.updateJobs);
 router.put('/:id', JobsController.updateJobs);
 router.put('/updatestatusjobscompleted/:id', JobsController.updateStatusJobsCompleted);

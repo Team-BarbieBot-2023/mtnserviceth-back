@@ -40,19 +40,19 @@ const Jobs = {
                 id=${job_id};`;
         connection.query(query, callback);        
     },
-    cancelJob: (job_id, callback) => {
+    cancelJob: (id, callback) => {
         const query = `UPDATE jobs SET
                 status='canceled'
                 WHERE
-                id=${job_id};`;
+                id=${id};`;
         connection.query(query, callback);        
     },
-    removeTechniciant:(job_id, callback)=>{
+    removeTechniciant:(id, callback)=>{
         const query = `UPDATE jobs SET
         status='pending',
         technician_id=null
         WHERE
-        id=${job_id};`;
+        id=${id};`;
 connection.query(query, callback);    
     },    
     getJobsByAdmin: (callback) => {

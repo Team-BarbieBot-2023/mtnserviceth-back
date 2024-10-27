@@ -90,7 +90,7 @@ class JobsController {
 
     static cancelJobs(req, res) {
         const { id } = req.params;
-        Jobs.cancelJob(id, req.body, (err) => {
+        Jobs.cancelJob(id, (err) => {
             if (err) {
                 return res.status(400).json({ error: err.message });
             }
