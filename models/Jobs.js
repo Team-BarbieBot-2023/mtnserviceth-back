@@ -33,6 +33,28 @@ const Jobs = {
         const query = "SELECT * FROM jobs AS a WHERE a.technician_id IS NULL";
         connection.query(query, callback);
     },
+    cancelJob: (job_id, callback) => {
+        const query = `UPDATE jobs SET
+                status='canceled'
+                WHERE
+                id=${job_id};`;
+        connection.query(query, callback);        
+    },
+    cancelJob: (job_id, callback) => {
+        const query = `UPDATE jobs SET
+                status='canceled'
+                WHERE
+                id=${job_id};`;
+        connection.query(query, callback);        
+    },
+    removeTechniciant:(job_id, callback)=>{
+        const query = `UPDATE jobs SET
+        status='pending',
+        technician_id=null
+        WHERE
+        id=${job_id};`;
+connection.query(query, callback);    
+    },    
     getJobsByAdmin: (callback) => {
         const query = `
             SELECT j.id AS job_id,

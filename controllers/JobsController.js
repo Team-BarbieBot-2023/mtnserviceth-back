@@ -88,6 +88,26 @@ class JobsController {
         });
     }
 
+    static cancelJobs(req, res) {
+        const { id } = req.params;
+        Jobs.cancelJob(id, req.body, (err) => {
+            if (err) {
+                return res.status(400).json({ error: err.message });
+            }
+            res.status(200).json({ message: 'Jobs updated successfully' });
+        });
+    }
+
+    static removeTechniciant(req, res) {
+        const { id } = req.params;
+        Jobs.removeTechniciant(id, req.body, (err) => {
+            if (err) {
+                return res.status(400).json({ error: err.message });
+            }
+            res.status(200).json({ message: 'Jobs updated successfully' });
+        });
+    }
+
     static async updateStatusJobsCompleted(req, res) {
         const { id } = req.params;
         const data = req.body;
