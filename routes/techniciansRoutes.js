@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post('/', upload.single('documents'), TechnicianController.createTechnician);
-router.get('/', TechnicianController.getTechnicians);
+router.get('/history', TechnicianController.getHistoryByTechnicians);
 router.get('/:id', TechnicianController.getTechniciansByID);
 router.put('/:id', upload.single('documents'), TechnicianController.updateTechnician);
 router.delete('/:id', TechnicianController.deleteTechnician);

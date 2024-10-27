@@ -16,6 +16,15 @@ class TechnicianController {
         });
     }
 
+    static getHistoryByTechnicians(req, res) {
+        Technician.getHistoryByTechnicians((err, results) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            res.status(200).json(results);
+        });
+    }
+
     static getTechnicians(req, res) {
         Technician.getAll((err, results) => {
             if (err) {

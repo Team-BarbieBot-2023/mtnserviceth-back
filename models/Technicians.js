@@ -19,9 +19,23 @@ const Technicians = {
         const query = 'SELECT * FROM technicians';
         connection.query(query, callback);
     },
-    updateStatus:(id, status)=>{
+
+    getHistoryByTechnicians: (callback) => {
+        const query = `SELECT
+            a.*,
+            b.NAME AS technicians_name,
+            b.email AS technicians_email,
+            b.image AS technicians_image,
+            b.STATUS AS technicians_status 
+                FROM technicians AS a
+            LEFT JOIN users AS b ON (a.user_id = b.id)`;
+        connection.query(query, callback);
+    },
+
+    updateStatus: (id, status) => {
         connection.query(`UPDATE technicians SET status = ${status} WHERE id=${id};`, callback);
     },
+
     update: (id, data, callback) => {
         const query = `
             UPDATE technicians 
