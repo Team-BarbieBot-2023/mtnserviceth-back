@@ -7,8 +7,6 @@ const upload = multer({ dest: '../storage/file' });
 class JobsController {
     static createJobs(req, res) {
         try {
-            console.log('Request Body:', req.body);
-            console.log('Uploaded Files:', req.files);
 
             if (!req.files || req.files.length === 0) {
                 return res.status(400).json({ error: 'No files uploaded' });
@@ -33,11 +31,16 @@ class JobsController {
                 completion_confirmed: false
             };
 
-            Jobs.create(jobData, (err, results) => {
+
+
+            Jobs.create(jobData, async (err, results) => {
                 if (err) {
                     console.error('Database Error:', err);
                     return res.status(500).json({ error: 'Failed to create job' });
                 }
+                await notification.line();
+
+
                 res.status(200).json({ message: 'Job created successfully!' });
             });
 
@@ -85,9 +88,19 @@ class JobsController {
         });
     }
 
-    static updateStatusJobsCompleted(req, res) {
+    static async updateStatusJobsCompleted(req, res) {
         const { id } = req.params;
-        Jobs.updateStatusCompleted(id, req.body, (err) => {
+        const data = req.body;
+
+        const setEmail = {
+            to: data.user_id,
+            subject: `Status Update: ${data.status}`,
+            text: "สถานะงานของท่าน สำเร็จแล้ว",
+        }
+
+        await notification.email(setEmail)
+        
+        Jobs.updateStatusCompleted(id, data, (err) => {
             if (err) {
                 return res.status(400).json({ error: err.message });
             }

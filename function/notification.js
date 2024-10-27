@@ -2,6 +2,9 @@ const nodemailer = require('nodemailer');
 const axios = require('axios');
 
 const User = require('../models/User');
+const Line = require('../models/Line');
+
+require('dotenv').config();
 
 const notification = {
     // Email function
@@ -49,30 +52,50 @@ const notification = {
         }
     },
 
-    // LINE function
-    line: async (item) => {
-        const LINE_ACCESS_TOKEN = 'your-line-access-token';
-
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${LINE_ACCESS_TOKEN}`,
-        };
-
-        const body = {
-            to: item.to,
-            messages: [
-                {
-                    type: 'text',
-                    text: item.text,
-                },
-            ],
-        };
-
+    line: async () => {
         try {
-            let response = await axios.post('https://api.line.me/v2/bot/message/push', body, { headers });
-            console.log('LINE message sent:', response.data);
+            const getLine = await new Promise((resolve, reject) => {
+                Line.getLineAll((err, line) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve(line);
+                });
+            });
+
+            if (!getLine || getLine.length === 0) {
+                console.log('No users with LINE ID found.');
+                return;
+            }
+
+            const TOKEN = process.env.LINE_ACCESS_TOKEN;
+
+            for (const user of getLine) {
+                if (user.line_id) {
+                    const headers = {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${TOKEN}`,
+                    };
+
+                    const body = {
+                        to: user.line_id,
+                        messages: [
+                            {
+                                type: 'text',
+                                text: 'มีงานเข้ามาใหม่แล้ว กรุณาตรวจสอบรายละเอียดในระบบ',
+                            },
+                        ],
+                    };
+
+                    try {
+                        const response = await axios.post('https://api.line.me/v2/bot/message/push', body, { headers });
+                    } catch (error) {
+                        console.error(`Error sending LINE message to ${user.line_id}:`, error.response ? error.response.data : error.message);
+                    }
+                }
+            }
         } catch (error) {
-            console.error('Error sending LINE message:', error);
+            console.error('Error fetching users or sending LINE message:', error);
         }
     },
 };

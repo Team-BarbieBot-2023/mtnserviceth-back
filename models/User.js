@@ -53,6 +53,11 @@ const User = {
         connection.query(query, [id], callback);
     },
 
+    getByRole: async (callback) => {
+        const query = "SELECT * FROM users WHERE role = 'T'";
+        connection.query(query, callback);
+    },
+
     getBy_id: (id, callback) => {
         const query = "SELECT * FROM users WHERE _id = ?";
         connection.query(query, [id], callback);
