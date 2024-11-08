@@ -1,5 +1,7 @@
 const Technician = require('../models/Technicians');
 const multer = require('multer');
+const upload = multer({ dest: '../storage/file' }); // กำหนดโฟลเดอร์สำหรับเก็บไฟล์
+const notification = require('../function/notification');
 
 class TechnicianController {
     static createTechnician(req, res) {
@@ -42,8 +44,16 @@ class TechnicianController {
         });
     }
 
-    static updateStatus(req, res) {
+    static async updateStatus(req, res) {
         const { id } = req.params;
+        const setEmail = {
+            to: req.body.id,
+            subject: `ระบบมีการปรับปรุงสถานะของท่าน`,
+            text: `current status: ${req.body.status}  [กรณีที่ท่านโดนแบนโดย Admin ติดต่อกลับ]`,
+        }
+
+        await notification.email(setEmail)
+
         const status = req.body.status;
         console.log(status)
         Technician.updateStatus(id, status, (err) => {
