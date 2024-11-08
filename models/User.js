@@ -59,7 +59,10 @@ const User = {
     },
 
     getBy_id: (id, callback) => {
-        const query = "SELECT * FROM users WHERE _id = ?";
+        // const query = `SELECT a.role AS role, a.id AS id, IFNULL(b.STATUS,"") AS 'status'
+        //                FROM users AS a
+	    //                LEFT JOIN technicians AS b ON (a.id = b.user_id)`
+        const query = `SELECT * FROM users WHERE _id = ?`
         connection.query(query, [id], callback);
     },
 

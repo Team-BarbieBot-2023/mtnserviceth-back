@@ -146,7 +146,6 @@ class JobsController {
             }
 
 
-            console.log(results);
             data.technician_id = results[0].id
 
             Jobs.updateStatus(id, data, (err) => {

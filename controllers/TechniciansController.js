@@ -1,13 +1,11 @@
 const Technician = require('../models/Technicians');
 const multer = require('multer');
-const upload = multer({ dest: '../storage/file' }); // กำหนดโฟลเดอร์สำหรับเก็บไฟล์
 
 class TechnicianController {
     static createTechnician(req, res) {
         if (!req.file) {
             return res.status(400).json({ error: "File not uploaded" });
         }
-
         Technician.create({ ...req.body, documents: req.file.filename, }, (err, results) => {
             if (err) {
                 return res.status(400).json({ error: err.message });
@@ -47,7 +45,9 @@ class TechnicianController {
     static updateStatus(req, res) {
         const { id } = req.params;
         const status = req.body.status;
+        console.log(status)
         Technician.updateStatus(id, status, (err) => {
+            console.log(err);
             if (err) {
                 return res.status(400).json({ error: err.message });
             }
