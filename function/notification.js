@@ -54,7 +54,7 @@ const notification = {
 
     line: async (text) => {
         try {
-            const textSend = text || "มีงานเข้ามาใหม่แล้ว กรุณาตรวจสอบรายละเอียดในระบบ"
+            const textSend = `มีงานเข้ามาใหม่แล้ว เป็นงาน ${text} กรุณาตรวจสอบรายละเอียดเพิ่มเติมในระบบ` || "มีงานเข้ามาใหม่แล้ว กรุณาตรวจสอบรายละเอียดในระบบ"
             const getLine = await new Promise((resolve, reject) => {
                 Line.getLineAll((err, line) => {
                     if (err) {
