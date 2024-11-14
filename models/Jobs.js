@@ -6,8 +6,8 @@ const Jobs = {
             INSERT INTO jobs 
             (user_id, technician_id, phone, job_title, job_type, scheduled_datetime, 
              urgency, job_description, status, customer_details, img_description, 
-             completion_confirmed, created_at, updated_at) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+             completion_confirmed,completion_num, created_at, updated_at) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
         `;
         connection.query(
             query,
@@ -23,7 +23,8 @@ const Jobs = {
                 data.status,
                 JSON.stringify(data.customer_details),
                 JSON.stringify(data.img_description),
-                data.completion_confirmed
+                data.completion_confirmed,
+                data.completion_num || "0"
             ],
             callback
         );
