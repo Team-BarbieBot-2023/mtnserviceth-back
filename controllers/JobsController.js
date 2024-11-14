@@ -38,7 +38,8 @@ class JobsController {
                     console.error('Database Error:', err);
                     return res.status(500).json({ error: 'Failed to create job' });
                 }
-                await notification.line();
+
+                await notification.line(jobData.job_title);
 
 
                 res.status(200).json({ message: 'Job created successfully!' });

@@ -52,8 +52,9 @@ const notification = {
         }
     },
 
-    line: async () => {
+    line: async (text) => {
         try {
+            const textSend = text || "มีงานเข้ามาใหม่แล้ว กรุณาตรวจสอบรายละเอียดในระบบ"
             const getLine = await new Promise((resolve, reject) => {
                 Line.getLineAll((err, line) => {
                     if (err) {
@@ -82,7 +83,7 @@ const notification = {
                         messages: [
                             {
                                 type: 'text',
-                                text: 'มีงานเข้ามาใหม่แล้ว กรุณาตรวจสอบรายละเอียดในระบบ',
+                                text: textSend,
                             },
                         ],
                     };
