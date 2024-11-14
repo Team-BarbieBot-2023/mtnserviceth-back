@@ -72,7 +72,7 @@ connection.query(query, callback);
             tu.id AS technician_id_ori,
             tu.image AS technician_image,
             tu.name AS technician_name,
-            tu.completion_num AS completion_num,
+            j.completion_num AS completion_num,
             tu.email AS technician_email
             FROM jobs AS j
             LEFT JOIN technicians AS t ON (j.technician_id = t.id)
@@ -95,7 +95,7 @@ connection.query(query, callback);
             j.technician_id,
             tu.image AS technician_image,
             tu.name AS technician_name,
-            tu.completion_num AS completion_num,
+            j.completion_num AS completion_num,
             tu.email AS technician_email,
             t.experience_level AS technician_level    
             FROM jobs AS j
