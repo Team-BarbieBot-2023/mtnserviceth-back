@@ -41,7 +41,7 @@ app.use('/dashboard', dashboardRoutes);
 app.use('/file', express.static(path.join(__dirname, '/uploads')));
 app.use('/img', express.static(path.join(__dirname, '/img')));
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3004;
 
 const server = http.createServer(app);
 
