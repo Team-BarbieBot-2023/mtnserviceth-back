@@ -19,12 +19,6 @@ app.use(express.json({ limit: '50mb' }));
 
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-app.use('/', (req, res) => {
-    res.send('My APIs Wormsea.com');
-});
-
-
-
 
 app.use('/users', usersRouter);
 app.use('/technicians', techniciansRoutes);
@@ -41,7 +35,14 @@ app.use('/dashboard', dashboardRoutes);
 app.use('/file', express.static(path.join(__dirname, '/uploads')));
 app.use('/img', express.static(path.join(__dirname, '/img')));
 
-const PORT = process.env.PORT || 3000;
+
+
+app.use('/', (req, res) => {
+    res.send('My APIs Wormsea.com');
+});
+
+
+const PORT = process.env.PORT || 3002;
 
 const server = http.createServer(app);
 
