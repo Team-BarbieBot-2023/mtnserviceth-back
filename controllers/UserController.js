@@ -56,7 +56,7 @@ class UserController {
 
     static login(req, res) {
         const data = req.body;
-
+        console.log(data)
         User.getByEmail(data.email, (err, user) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
