@@ -37,9 +37,9 @@ app.use('/img', express.static(path.join(__dirname, '/img')));
 
 
 
-app.use('/', (req, res) => {
-    res.send('My APIs Wormsea.com');
-});
+// app.use('/', (req, res) => {
+//     res.send('My APIs Wormsea.com');
+// });
 
 
 const PORT = process.env.PORT || 3002;
